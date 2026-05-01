@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Busqueda{% endblock %}
+
+{% block content %}
+  <section class="content-section">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Busqueda</p>
+        <h1>{% if query %}Resultados para "{{ query }}"{% else %}Buscar contenido{% endif %}</h1>
+      </div>
+    </div>
+
+    {% if error %}
+      <div class="alert">{{ error }}</div>
+    {% endif %}
+
+    <div class="post-grid">
+      {% for post in posts %}
+        <article class="post-card">
+          {% if post.featured_image %}
+            <a href="{% url 'post_detail' post.slug %}" class="post-media">
+              <img src="{{ post.featured_image.url }}" alt="{{ post.featured_image.alt }}">
+            </a>
+          {% endif %}
+          <div class="post-card-body">
+            <h3><a href="{% url 'post_detail' post.slug %}">{{ post.title|striptags }}</a></h3>
+            <p>{{ post.summary }}</p>
+            <a class="read-more" href="{% url 'post_detail' post.slug %}">Leer articulo</a>
+          </div>
+        </article>
+      {% empty %}
+        {% if query %}
+          <p class="empty-state">No se encontraron resultados.</p>
+        {% else %}
+          <p class="empty-state">Escribe una palabra para buscar en WordPress.</p>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

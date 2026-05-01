@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Prometric | Tailored Development{% endblock %}
+{% block body_class %}landing-body{% endblock %}
+{% block main_class %}landing-main{% endblock %}
+
+{% block content %}
+  <section class="landing-screen" aria-label="Prometric tailored development">
+    <div class="landing-copy">
+      <h1 class="landing-title">
+        <img src="{% static 'img/tailored-development.svg' %}" alt="Tailored development">
+        <span class="sr-only">Tailored development</span>
+      </h1>
+
+      <nav class="landing-service-links" aria-label="Servicios principales">
+        <a href="{% url 'page_detail' 'development' %}">_dev</a>
+        <a href="{% url 'page_detail' 'sysadmin' %}">_sys</a>
+        <a href="{% url 'page_detail' 'ia' %}">_ai</a>
+      </nav>
+    </div>
+
+  </section>
+{% endblock %}

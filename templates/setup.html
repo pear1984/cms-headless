@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Configurar WordPress{% endblock %}
+
+{% block content %}
+  <section class="setup-panel">
+    <div>
+      <p class="eyebrow">Configuracion pendiente</p>
+      <h1>Conecta tu WordPress headless</h1>
+      <p>
+        La pagina ya esta lista para consumir posts y paginas desde la REST API de WordPress.
+        Solo falta configurar la URL publica de tu WordPress.
+      </p>
+    </div>
+
+    <div class="code-panel">
+      <p>1. Crea el archivo <strong>.env</strong> copiando <strong>.env.example</strong>.</p>
+      <p>2. Completa esta variable:</p>
+      <pre><code>WORDPRESS_BASE_URL=https://tusitio.com</code></pre>
+      <p>3. Reinicia el servidor de Django.</p>
+    </div>
+  </section>
+{% endblock %}

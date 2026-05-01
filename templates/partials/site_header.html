@@ -1,0 +1,65 @@
+{% load static %}
+
+<header class="landing-header site-prometric-header">
+  <a class="landing-brand" href="{% url 'home' %}" aria-label="Prometric">
+    <img src="{% static 'img/prometric-logo.svg' %}" alt="Prometric">
+  </a>
+
+  <div class="landing-actions">
+    <button class="landing-login" type="button" data-login-open aria-controls="login-drawer" aria-expanded="false" aria-label="Login">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <circle cx="12" cy="7" r="4"/>
+        <path d="M12 14c-6.627 0-8 2.985-8 4v1h16v-1c0-1.015-1.373-4-8-4z"/>
+      </svg>
+    </button>
+
+    <details class="landing-menu" data-landing-menu>
+      <summary aria-label="Abrir menu" aria-expanded="false">
+        <span class="menu-dot"></span>
+        <span class="menu-dot"></span>
+        <span class="menu-dot"></span>
+      </summary>
+
+      <nav class="landing-menu-panel" aria-label="Servicios y posts">
+        <a href="{% url 'page_detail' 'development' %}">Development</a>
+        <a href="{% url 'page_detail' 'sysadmin' %}">Sysadmin</a>
+        <a href="{% url 'page_detail' 'ia' %}">IA</a>
+        {% if menu_posts %}
+          <div class="landing-menu-posts">
+            {% for post in menu_posts %}
+              <a class="landing-menu-post" href="{% url 'post_detail' post.slug %}">{{ post.title }}</a>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </nav>
+    </details>
+  </div>
+</header>
+
+<div class="login-backdrop" data-login-close hidden></div>
+
+<aside class="login-drawer" id="login-drawer" data-login-drawer aria-label="Login" aria-hidden="true">
+  <button class="login-drawer-close" type="button" data-login-close aria-label="Cerrar login">&times;</button>
+
+  <form class="login-form" action="http://localhost:8080/wp-login.php" method="post">
+    <div class="login-form-heading">
+      <p>Prometric</p>
+      <h2>login</h2>
+    </div>
+
+    <label class="material-field">
+      <input type="text" name="log" autocomplete="username" required placeholder=" ">
+      <span>Nombre de usuario (mail)</span>
+    </label>
+
+    <label class="material-field">
+      <input type="password" name="pwd" autocomplete="current-password" required placeholder=" ">
+      <span>Clave</span>
+    </label>
+
+    <a class="forgot-password" href="http://localhost:8080/wp-login.php?action=lostpassword">Olvid&eacute; mi contrase&ntilde;a</a>
+
+    <input type="hidden" name="redirect_to" value="http://localhost:8080/wp-admin/">
+    <button class="login-submit" type="submit">Ingresar</button>
+  </form>
+</aside>

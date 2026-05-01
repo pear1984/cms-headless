@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title|striptags }}{% endblock %}
+
+{% block content %}
+  <article class="article-page">
+    <header class="article-header">
+      <p class="eyebrow">Pagina</p>
+      <h1>{{ page.title|striptags }}</h1>
+    </header>
+
+    <div class="wp-content">
+      {{ page.content|safe }}
+    </div>
+  </article>
+{% endblock %}

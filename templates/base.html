@@ -1,0 +1,38 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}WordPress Headless + Django{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  {% block header %}
+    {% include "partials/site_header.html" %}
+  {% endblock %}
+
+  <main class="{% block main_class %}{% endblock %}">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block footer %}
+    <footer class="landing-legal site-prometric-footer">
+      {{ footer_content|safe }}
+    </footer>
+  {% endblock %}
+  <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Aviso de cookies" hidden>
+    <p class="cookie-banner-text">
+      Usamos cookies propias y de terceros para mejorar tu experiencia y analizar el tr&aacute;fico.
+      <a href="{% url 'page_detail' 'cookies' %}">Pol&iacute;tica de cookies</a>
+    </p>
+    <div class="cookie-banner-actions">
+      <button class="cookie-btn cookie-btn--reject" data-cookie-reject>Rechazar</button>
+      <button class="cookie-btn cookie-btn--accept" data-cookie-accept>Aceptar</button>
+    </div>
+  </div>
+
+  <script src="{% static 'js/landing-menu.js' %}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load wp_extras %}
+
+{% block title %}{{ post.title|striptags }}{% endblock %}
+
+{% block content %}
+  <article class="article-page">
+    <header class="article-header">
+      {% if post.categories %}
+        <p class="eyebrow">{{ post.categories.0.name }}</p>
+      {% endif %}
+      <h1>{{ post.title|striptags }}</h1>
+      <p class="article-meta">{{ post.content|reading_time }} de lectura</p>
+    </header>
+
+    {% if post.featured_image %}
+      <img class="article-image" src="{{ post.featured_image.url }}" alt="{{ post.featured_image.alt }}">
+    {% endif %}
+
+    <div class="wp-content">
+      {{ post.content|safe }}
+    </div>
+  </article>
+{% endblock %}

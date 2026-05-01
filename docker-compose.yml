@@ -1,0 +1,16 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      SECRET_KEY: "${SECRET_KEY:-dev-only-change-me}"
+      DEBUG: "${DEBUG:-False}"
+      ALLOWED_HOSTS: "${ALLOWED_HOSTS:-localhost,127.0.0.1,0.0.0.0}"
+      WORDPRESS_BASE_URL: "${WORDPRESS_BASE_URL:-http://host.docker.internal:8080}"
+      WORDPRESS_POSTS_PER_PAGE: "${WORDPRESS_POSTS_PER_PAGE:-9}"
+      WORDPRESS_API_TIMEOUT: "${WORDPRESS_API_TIMEOUT:-8}"
+      WORDPRESS_CACHE_SECONDS: "${WORDPRESS_CACHE_SECONDS:-0}"
+    restart: unless-stopped
