@@ -36,6 +36,37 @@ Ese directorio contiene:
 - `SHA256SUMS.txt`: hashes para verificar integridad.
 - `restore_bundle.sh`: restaurador para otra Mac.
 
+## Backup SQL versionado
+
+Ademas del bundle completo, este repo puede guardar un dump SQL comprimido de
+WordPress en:
+
+```text
+database_backups/
+```
+
+El archivo `database_backups/wordpress_db_2026-05-23.sql.gz` contiene la base
+MariaDB de WordPress y sirve para restaurar posts, paginas, opciones, usuarios y
+metadatos. No incluye archivos subidos a `wp-content/uploads`; esos viajan en el
+bundle Docker completo.
+
+Para crear un dump nuevo:
+
+```bash
+mkdir -p database_backups
+docker compose -f infra/wordpress/docker-compose.yml exec -T db \
+  sh -c 'mariadb-dump -u"$MARIADB_USER" -p"$MARIADB_PASSWORD" "$MARIADB_DATABASE"' \
+  | gzip -9 > database_backups/wordpress_db_$(date +%F).sql.gz
+```
+
+Para restaurar el SQL en el stack local:
+
+```bash
+gzip -cd database_backups/wordpress_db_2026-05-23.sql.gz | \
+  docker compose -f infra/wordpress/docker-compose.yml exec -T db \
+  sh -c 'mariadb -u"$MARIADB_USER" -p"$MARIADB_PASSWORD" "$MARIADB_DATABASE"'
+```
+
 ## Restaurar en otra Mac
 
 1. Instalar Docker Desktop.
