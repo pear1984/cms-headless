@@ -1,7 +1,21 @@
 .env
+.env*
+!.env.example
+!infra/wordpress/.env.example
 .venv/
 __pycache__/
 *.py[cod]
 db.sqlite3
 .DS_Store
 staticfiles/
+portable_exports/
+*.tar
+*.tar.gz
+* 2
+* 3
+* 2.*
+* 3.*
+**/* 2
+**/* 3
+**/* 2.*
+**/* 3.*

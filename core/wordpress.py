@@ -77,6 +77,12 @@ class WordPressClient:
         pages = self._get("pages", {"slug": slug, "per_page": 1})
         return self._normalize_page(pages[0]) if pages else None
 
+    def get_category_id_by_slug(self, slug):
+        categories = self._get("categories", {"slug": slug, "per_page": 1})
+        if not categories:
+            return None
+        return categories[0].get("id")
+
     def _get(self, path, params=None):
         if not self.configured:
             return []

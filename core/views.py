@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.shortcuts import render
+from django.conf import settings
 
 from .wordpress import WordPressAPIError, WordPressClient
 
@@ -33,6 +34,19 @@ def get_menu_posts(client):
         return []
 
 
+def get_menu_area_posts(client):
+    if not client.configured:
+        return []
+
+    try:
+        areas_category_id = client.get_category_id_by_slug("areas")
+        if not areas_category_id:
+            return []
+        return client.get_posts(per_page=3, categories=areas_category_id, orderby="title", order="asc")
+    except WordPressAPIError:
+        return []
+
+
 def get_footer_content(client):
     if not client.configured:
         return DEFAULT_FOOTER_CONTENT
@@ -48,36 +62,35 @@ def get_footer_content(client):
     return page["content"]
 
 
-def post_detail(request, slug):
+def content_detail(request, slug):
     client = WordPressClient()
     context = base_context(client)
 
     try:
         post = client.get_post_by_slug(slug)
+        page = None if post else client.get_page_by_slug(slug)
     except WordPressAPIError as exc:
         return render(request, "error.html", {"error": str(exc), **context}, status=502)
 
-    if not post:
-        raise Http404("Post no encontrado")
+    if post:
+        context["post"] = post
+        context["post_uses_elementor"] = "elementor" in post.get("content", "")
+        return render(request, "post_detail.html", context)
 
-    context["post"] = post
-    return render(request, "post_detail.html", context)
+    if page:
+        context["page"] = page
+        context["page_uses_elementor"] = "elementor" in page.get("content", "")
+        return render(request, "page_detail.html", context)
+
+    raise Http404("Contenido no encontrado")
+
+
+def post_detail(request, slug):
+    return content_detail(request, slug)
 
 
 def page_detail(request, slug):
-    client = WordPressClient()
-    context = base_context(client)
-
-    try:
-        page = client.get_page_by_slug(slug)
-    except WordPressAPIError as exc:
-        return render(request, "error.html", {"error": str(exc), **context}, status=502)
-
-    if not page:
-        raise Http404("Pagina no encontrada")
-
-    context["page"] = page
-    return render(request, "page_detail.html", context)
+    return content_detail(request, slug)
 
 
 def search(request):
@@ -101,7 +114,10 @@ def search(request):
 def base_context(client):
     context = {
         "footer_content": get_footer_content(client),
+        "menu_area_posts": get_menu_area_posts(client),
         "menu_posts": get_menu_posts(client),
+        "wordpress_base_url": client.base_url,
+        "wordpress_public_url": settings.WORDPRESS_PUBLIC_URL,
         "wordpress_configured": client.configured,
         "nav_pages": [],
     }

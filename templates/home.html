@@ -14,9 +14,15 @@
       </h1>
 
       <nav class="landing-service-links" aria-label="Servicios principales">
-        <a href="{% url 'page_detail' 'development' %}">_dev</a>
-        <a href="{% url 'page_detail' 'sysadmin' %}">_sys</a>
-        <a href="{% url 'page_detail' 'ia' %}">_ai</a>
+        {% if menu_area_posts %}
+          {% for post in menu_area_posts %}
+            <a href="{% url 'post_detail' post.slug %}">{{ post.title|striptags }}</a>
+          {% endfor %}
+        {% else %}
+          <a href="{% url 'page_detail' 'development' %}">_dev</a>
+          <a href="{% url 'page_detail' 'sysadmin' %}">_sys</a>
+          <a href="{% url 'page_detail' 'ia' %}">_ai</a>
+        {% endif %}
       </nav>
     </div>
 

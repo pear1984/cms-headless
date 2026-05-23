@@ -80,6 +80,7 @@ CACHES = {
 }
 
 WORDPRESS_BASE_URL = os.getenv("WORDPRESS_BASE_URL", "").rstrip("/")
+WORDPRESS_PUBLIC_URL = os.getenv("WORDPRESS_PUBLIC_URL", "http://localhost:8080").rstrip("/")
 WORDPRESS_POSTS_PER_PAGE = int(os.getenv("WORDPRESS_POSTS_PER_PAGE", "9"))
 WORDPRESS_API_TIMEOUT = float(os.getenv("WORDPRESS_API_TIMEOUT", "8"))
 WORDPRESS_CACHE_SECONDS = int(os.getenv("WORDPRESS_CACHE_SECONDS", "300"))

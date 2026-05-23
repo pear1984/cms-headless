@@ -21,9 +21,15 @@
       </summary>
 
       <nav class="landing-menu-panel" aria-label="Servicios y posts">
-        <a href="{% url 'page_detail' 'development' %}">Development</a>
-        <a href="{% url 'page_detail' 'sysadmin' %}">Sysadmin</a>
-        <a href="{% url 'page_detail' 'ia' %}">IA</a>
+        {% if menu_area_posts %}
+          {% for post in menu_area_posts %}
+            <a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a>
+          {% endfor %}
+        {% else %}
+          <a href="{% url 'page_detail' 'development' %}">Development</a>
+          <a href="{% url 'page_detail' 'sysadmin' %}">Sysadmin</a>
+          <a href="{% url 'page_detail' 'ia' %}">IA</a>
+        {% endif %}
         {% if menu_posts %}
           <div class="landing-menu-posts">
             {% for post in menu_posts %}
@@ -41,7 +47,7 @@
 <aside class="login-drawer" id="login-drawer" data-login-drawer aria-label="Login" aria-hidden="true">
   <button class="login-drawer-close" type="button" data-login-close aria-label="Cerrar login">&times;</button>
 
-  <form class="login-form" action="http://localhost:8080/wp-login.php" method="post">
+  <form class="login-form" action="{{ wordpress_public_url|default:'http://localhost:8080' }}/wp-login.php" method="post">
     <div class="login-form-heading">
       <p>Prometric</p>
       <h2>login</h2>
@@ -57,9 +63,9 @@
       <span>Clave</span>
     </label>
 
-    <a class="forgot-password" href="http://localhost:8080/wp-login.php?action=lostpassword">Olvid&eacute; mi contrase&ntilde;a</a>
+    <a class="forgot-password" href="{{ wordpress_public_url|default:'http://localhost:8080' }}/wp-login.php?action=lostpassword">Olvid&eacute; mi contrase&ntilde;a</a>
 
-    <input type="hidden" name="redirect_to" value="http://localhost:8080/wp-admin/">
+    <input type="hidden" name="redirect_to" value="{{ wordpress_public_url|default:'http://localhost:8080' }}/wp-admin/">
     <button class="login-submit" type="submit">Ingresar</button>
   </form>
 </aside>

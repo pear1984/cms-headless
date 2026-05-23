@@ -59,7 +59,7 @@ WordPress queda disponible en `http://localhost:8080`, el admin en `http://local
 
 ## Django En Docker
 
-Tambien puedes correr el proyecto en contenedor.
+Tambien puedes correr el proyecto en contenedor con `nginx` delante de Django y `gunicorn` detras.
 
 1. Crea tu archivo `.env`:
 
@@ -85,7 +85,9 @@ http://host.docker.internal:8080
 docker compose up --build
 ```
 
-Abre `http://127.0.0.1:8000`.
+Abre `http://127.0.0.1:8001`.
+
+Puedes cambiar el puerto editando `DJANGO_HTTP_PORT` en `.env`.
 
 Para detenerlo:
 

@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}WordPress Headless + Django{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/site.css' %}">
+  {% block extra_head %}{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
   {% block header %}

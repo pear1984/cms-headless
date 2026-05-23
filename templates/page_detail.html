@@ -2,6 +2,13 @@
 
 {% block title %}{{ page.title|striptags }}{% endblock %}
 
+{% block extra_head %}
+  {% if page_uses_elementor and wordpress_public_url %}
+    <link rel="stylesheet" href="{{ wordpress_public_url }}/wp-content/plugins/elementor/assets/css/frontend.min.css">
+    <link rel="stylesheet" href="{{ wordpress_public_url }}/wp-content/uploads/elementor/css/post-{{ page.id }}.css">
+  {% endif %}
+{% endblock %}
+
 {% block content %}
   <article class="article-page">
     <header class="article-header">

@@ -58,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const backdrop = document.querySelector(".login-backdrop");
   const openButton = document.querySelector("[data-login-open]");
   const closeButtons = document.querySelectorAll("[data-login-close]");
+  const LOGIN_HASH = "#login";
 
   if (!drawer || !backdrop || !openButton) {
     return;
@@ -82,19 +83,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 180);
   };
 
+  const clearLoginHash = () => {
+    if (window.location.hash !== LOGIN_HASH) {
+      return;
+    }
+    const cleanUrl = `${window.location.pathname}${window.location.search}`;
+    window.history.replaceState(null, "", cleanUrl);
+  };
+
+  const syncLoginFromHash = () => {
+    setLoginOpen(window.location.hash === LOGIN_HASH);
+  };
+
   openButton.addEventListener("click", () => {
+    if (window.location.hash !== LOGIN_HASH) {
+      window.location.hash = "login";
+      return;
+    }
     setLoginOpen(true);
   });
 
   closeButtons.forEach((button) => {
     button.addEventListener("click", () => {
+      clearLoginHash();
       setLoginOpen(false);
     });
   });
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
+      clearLoginHash();
       setLoginOpen(false);
     }
   });
+
+  window.addEventListener("hashchange", syncLoginFromHash);
+  syncLoginFromHash();
 });

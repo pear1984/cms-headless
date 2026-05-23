@@ -1,6 +1,6 @@
 # WordPress Headless
 
-Stack separado para WordPress con PHP 8.3, MariaDB, WP-CLI y phpMyAdmin. Django no instala ni administra WordPress; solo consume `http://localhost:8080/wp-json/wp/v2/`.
+Stack separado para WordPress con PHP 8.3, MariaDB, WP-CLI, `nginx` y phpMyAdmin. Django no instala ni administra WordPress; solo consume `http://localhost:8080/wp-json/wp/v2/`.
 
 ## Uso
 
@@ -15,6 +15,8 @@ WordPress queda disponible en:
 ```bash
 http://localhost:8080
 http://localhost:8080/wp-admin
+
+La URL publica sale por `nginx`; el contenedor `wordpress` queda detras como backend interno.
 ```
 
 phpMyAdmin queda disponible en:
