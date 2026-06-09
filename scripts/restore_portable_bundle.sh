@@ -14,6 +14,7 @@ require_file() {
 
 require_file "$BUNDLE_DIR/code/cms-headless-code.tar.gz"
 require_file "$BUNDLE_DIR/docker/images.tar"
+require_file "$BUNDLE_DIR/database/wordpress.sql.gz"
 require_file "$BUNDLE_DIR/volumes/wordpress_db_data.tar.gz"
 require_file "$BUNDLE_DIR/volumes/wordpress_wordpress_data.tar.gz"
 
@@ -46,11 +47,17 @@ restore_volume() {
 restore_volume wordpress_db_data "$BUNDLE_DIR/volumes/wordpress_db_data.tar.gz"
 restore_volume wordpress_wordpress_data "$BUNDLE_DIR/volumes/wordpress_wordpress_data.tar.gz"
 
-if [ ! -f "$TARGET_DIR/.env" ]; then
+if [ -f "$BUNDLE_DIR/config/django.env" ]; then
+  cp "$BUNDLE_DIR/config/django.env" "$TARGET_DIR/.env"
+  chmod 600 "$TARGET_DIR/.env"
+elif [ ! -f "$TARGET_DIR/.env" ]; then
   cp "$TARGET_DIR/.env.example" "$TARGET_DIR/.env"
 fi
 
-if [ ! -f "$TARGET_DIR/infra/wordpress/.env" ]; then
+if [ -f "$BUNDLE_DIR/config/wordpress.env" ]; then
+  cp "$BUNDLE_DIR/config/wordpress.env" "$TARGET_DIR/infra/wordpress/.env"
+  chmod 600 "$TARGET_DIR/infra/wordpress/.env"
+elif [ ! -f "$TARGET_DIR/infra/wordpress/.env" ]; then
   cp "$TARGET_DIR/infra/wordpress/.env.example" "$TARGET_DIR/infra/wordpress/.env"
 fi
 

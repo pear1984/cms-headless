@@ -30,11 +30,16 @@ portable_exports/cms-headless-YYYYMMDD-HHMMSS/
 Ese directorio contiene:
 
 - `code/cms-headless-code.tar.gz`: snapshot limpio del codigo.
+- `config/`: configuracion privada `.env` de Django y WordPress.
+- `database/wordpress.sql.gz`: dump SQL portable de MySQL/MariaDB.
 - `docker/images.tar`: imagenes necesarias para iniciar sin reconstruir todo desde internet.
 - `volumes/wordpress_db_data.tar.gz`: base MariaDB de WordPress.
 - `volumes/wordpress_wordpress_data.tar.gz`: archivos WordPress, uploads, plugins y temas.
 - `SHA256SUMS.txt`: hashes para verificar integridad.
 - `restore_bundle.sh`: restaurador para otra Mac.
+
+El directorio exportado es privado: contiene credenciales y usuarios de
+WordPress. No debe publicarse en un repositorio GitHub abierto.
 
 ## Backup SQL versionado
 
